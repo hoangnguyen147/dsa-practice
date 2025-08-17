@@ -6,16 +6,15 @@ func isValid(s string) bool {
     }
     
     stack := make([]rune, 0)
-    for _, rc := range s {
-        c := string(rc)
-        if c == "(" || c == "{" || c == "[" {
-            stack = append(stack, rc)
+    for _, c := range s {
+        if c == '(' || c == '{' || c == '[' {
+            stack = append(stack, c)
         } else {
             if len(stack) == 0 {
                 return false
             }
-            i := string(stack[len(stack)-1])
-            if (i == "(" && c == ")") || (i == "{" && c == "}") || (i == "[" && c == "]") {
+            i := stack[len(stack)-1]
+            if (i == '(' && c == ')') || (i == '{' && c == '}') || (i == '[' && c == ']') {
                 stack = stack[:len(stack)-1]
             } else {
                 return false
