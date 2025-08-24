@@ -1,4 +1,4 @@
-package number_of_islands
+package main
 
 func numIslands(grid [][]byte) int {
     if len(grid) == 0 {
@@ -12,20 +12,21 @@ func numIslands(grid [][]byte) int {
     }
     nums := 0
     
-    bfs := func(r, c int) {
+    dfs := func(r, c int) {
         visited[r][c] = true
-        queue := [][2]int{{r, c}}
+        stack := [][2]int{{r, c}}
         drn := [4][2]int{{0, -1}, {0, 1}, {-1, 0}, {1, 0}}
 
-        for len(queue) > 0 {
-            nr, nc := queue[0][0], queue[0][1]
-            queue = queue[1:]
+        for len(stack) > 0 {
+            item := stack[len(stack)-1]
+            nr, nc := item[0], item[1]
+            stack = stack[:len(stack)-1]
             for _, d := range drn {
                 dr, dc := nr + d[0], nc + d[1]
                 if dr >= 0 && dr < m && dc >= 0 && dc < n {
                     if grid[dr][dc] == '1' && !visited[dr][dc] {
                         visited[dr][dc] = true
-                        queue = append(queue, [2]int{dr, dc})
+                        stack = append(stack, [2]int{dr, dc})
                     }
                 }
             }
@@ -36,10 +37,11 @@ func numIslands(grid [][]byte) int {
         for j := 0; j < n; j++ {
             if grid[i][j] == '1' && !visited[i][j] {
                 nums++
-                bfs(i, j)
+                dfs(i, j)
             }
         }
     }
     
     return nums
 }
+
